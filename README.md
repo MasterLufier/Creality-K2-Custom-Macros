@@ -20,6 +20,7 @@ Author: Mikhail Ivanov masluf@gmail.com
 - prtouch:
   - Disabled console flood
 - Max bed temp increased to 120c
+- Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
 ### tool.cfg 
 under development now, but some features work:
 - added Toolhead buttons for manual load and unload filaments. T17 for unload any.  \
