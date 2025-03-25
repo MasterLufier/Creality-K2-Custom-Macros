@@ -7,7 +7,7 @@ Author: Mikhail Ivanov masluf@gmail.com
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
 
-For use you need install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins\
+For use you need install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins \
 Just copy virtual_pins.py to you printer /usr/share/klipper/klippy/extras/ via SSH\
 Than copy main.cfg to you pinter config directory Fluidd web interface and include to printer.cfg after all includes.\
 you can use tool.cfg or not. If you want, just copy tool.cfg and custom_vars.cfg to printer config directory via Fluidd web interface and include to printer.cfg after main.cfg\
