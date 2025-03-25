@@ -19,9 +19,6 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Default bed mesh calibration is turned off after printer restart
 - prtouch:
   - Disabled console flood
-  - Increased accuracy
-  - Disabled non-linear compensation, because it works ugly
-- Z-homing point moved to bed corner. This point is more temperature stable.
 - Max bed temp increased to 120c
 ### tool.cfg 
 under development now, but some features work:
@@ -30,9 +27,6 @@ under development now, but some features work:
 - Unloading CFS filament is disabled after printing. This is great for reusing the same filament.
 - Spoolholder can be used from ORCA without unplugging CFS and feed filament through buffer! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
 ![изображение](https://github.com/user-attachments/assets/f3d3497c-8c7c-4c29-9110-13ea197c1ac1)
-
- 
-
 
 
 ## Installation:
