@@ -28,7 +28,7 @@ under development now, but some features work:
 - added Toolhead buttons for manual load and unload filaments. T17 for unload any.  \
 ![изображение](https://github.com/user-attachments/assets/afea66c2-4f16-4baf-859d-b6a7c3ac8330)
 - Unloading CFS filament is disabled after printing. This is great for reusing the same filament.
-- Spoolholder can be used from ORCA without  unplugging CFS! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
+- Spoolholder can be used from ORCA without unplugging CFS and feed filament through buffer! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
 ![изображение](https://github.com/user-attachments/assets/f3d3497c-8c7c-4c29-9110-13ea197c1ac1)
 
  
