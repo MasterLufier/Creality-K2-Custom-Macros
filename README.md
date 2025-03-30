@@ -49,8 +49,9 @@ Example:
 overrides.cfg need to be included in printer.cfg  after all blocs before SAVE_CONFIG section \
 you can use overrides.cfg partialy or full. Annotation will be added soon.
 
-![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
-
-
-
-
+![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d) \
+## For developers:
+Extraction of box_wrapper.cpython-39.so attributes here:  
+https://docs.google.com/spreadsheets/d/16-dBGIGJ-zMNRc8hM-vnQLuDPJgmWSqQlyrfId-jeRs/edit?usp=sharing  
+Extraction of filament_rack_wrapper.cpython-39.so attributes here:  
+https://docs.google.com/spreadsheets/d/1BUP6k6tMjnTPiEdz6MP2wp-nE-Sxzs840_5d1FgZd7s/edit?usp=sharing  
