@@ -21,7 +21,7 @@ Author: Mikhail Ivanov masluf@gmail.com
   - Disabled console flood
 - Max bed temp increased to 120c
 - Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
-### tool.cfg 
+### tool.cfg Please do not use this module if you are not sure what it does.
 under development now, but some features work:
 - added Toolhead buttons for manual load and unload filaments. T17 for unload any.  \
 ![изображение](https://github.com/user-attachments/assets/afea66c2-4f16-4baf-859d-b6a7c3ac8330)
