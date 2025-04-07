@@ -28,6 +28,27 @@ under development now, but some features work:
 - Unloading CFS filament is disabled after printing. This is great for reusing the same filament.
 - Spoolholder can be used from ORCA without unplugging CFS and feed filament through buffer! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
 ![изображение](https://github.com/user-attachments/assets/f3d3497c-8c7c-4c29-9110-13ea197c1ac1)
+#### !!!
+You need change some start g-codes in slicer:  
+Machine start g-code:  
+```
+START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
+T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+```
+Change filament g-code
+```
+G1 E-[old_retract_length] F2400
+G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
+G1 X0 Y200 F30000
+T[next_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+```
+In Multimaterial tab in Printer settings you need to switch on Manual Filament Change
+
+![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
+
+In Filament start g-code you need remove or comment all strings!
+
+#### !!!
 
 ### better_Z.cfg
 - The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
