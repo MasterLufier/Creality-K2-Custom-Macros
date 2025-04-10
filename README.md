@@ -1,6 +1,7 @@
 # Creality-K2-Custom-Macros
 Creality K2 macros for better ORCA Sliser compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
+Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
 GPL-3.0 license\
 Author: Mikhail Ivanov masluf@gmail.com  
 
