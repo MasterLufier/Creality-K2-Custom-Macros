@@ -22,13 +22,18 @@ Author: Mikhail Ivanov masluf@gmail.com
   - Disabled console flood
 - Max bed temp increased to 140c
 - Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
-### tool.cfg Please do not use this module if you are not sure what it does.
-under development now, but some features work:
-- added Toolhead buttons for manual load and unload filaments. T17 for unload any.  \
+### tool.cfg
+> [!NOTE]
+> I am not sure about all the commands in this module, as they are the result of reverse engineering and require a lot of testing.
+
+- added Toolhead buttons for manual load and unload filaments. T17 for unload any. Do NOT press any buttons except T17 to unload filaments. \
 ![изображение](https://github.com/user-attachments/assets/afea66c2-4f16-4baf-859d-b6a7c3ac8330)
 - Unloading CFS filament is disabled after printing. This is great for reusing the same filament.
 - Spoolholder can be used from ORCA without unplugging CFS and feed filament through buffer! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
 ![изображение](https://github.com/user-attachments/assets/f3d3497c-8c7c-4c29-9110-13ea197c1ac1)
+- All loading and purging parameters, such as temperature and velocity, are used from the slicer, and not from the printer's filament database or printer's on-screen menu.
+- Added pressure stabilization to the last purging step. This allows you to print without a skirt, a brim, a priming tower, or any other garbage objects. However, in some cases, such as when changing filament types or opposite colours changes, you may want to add a priming tower for better print quality.
+- Loading and unloading CFS filament as quickly as possible.
 
 To start printing from the spool holder after using the CFS, follow these steps:
 1. Open the Fluidd web interface.
@@ -50,7 +55,6 @@ To start printing from the CFS after the spool holder:
 
 > [!WARNING]
 > !!! DO NOT USE RETRACT BUTTON IN PRINTER SCREEN FOR UNLOADING FILAMENT!!! USE ONLY T17 FOR IT !!!
-
 
 #### !!!
 You need change some start g-codes in slicer:  
@@ -96,7 +100,7 @@ Example:
 overrides.cfg need to be included in printer.cfg  after all blocs before SAVE_CONFIG section \
 you can use overrides.cfg partialy or full. Annotation will be added soon.
 
-![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d) \
+![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
 ## For developers:
 Extraction of box_wrapper.cpython-39.so attributes here:  
 https://docs.google.com/spreadsheets/d/16-dBGIGJ-zMNRc8hM-vnQLuDPJgmWSqQlyrfId-jeRs/edit?usp=sharing  
