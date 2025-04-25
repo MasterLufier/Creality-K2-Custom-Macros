@@ -20,7 +20,7 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Default bed mesh calibration is turned off after printer restart
 - prtouch:
   - Disabled console flood
-- Max bed temp increased to 120c
+- Max bed temp increased to 140c
 - Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
 ### tool.cfg Please do not use this module if you are not sure what it does.
 under development now, but some features work:
@@ -29,6 +29,29 @@ under development now, but some features work:
 - Unloading CFS filament is disabled after printing. This is great for reusing the same filament.
 - Spoolholder can be used from ORCA without unplugging CFS and feed filament through buffer! Just add +1 filament to your project (if you have 1 CFS connected - fifth, if 2 CFS-ninth etc.), set it for parts and push print! \
 ![изображение](https://github.com/user-attachments/assets/f3d3497c-8c7c-4c29-9110-13ea197c1ac1)
+
+To start printing from the spool holder after using the CFS, follow these steps:
+1. Open the Fluidd web interface.
+2. Press the T17 button or type the T17 command into the console and press Enter (see screenshot below). The CFS filament will be unloaded. 
+3. If you don't have a Y-splitter, disconnect the CFS tube and connect the spoolholder tube. 
+4. Manually load filament from the spoolholder. 
+5. Go to the filament tab in the printer screen. 
+6. Set the right filament type for the spoolholder. 
+7. Press the "Extrude" button. 
+8. Push filament to the extruder for a better catch.
+
+![изображение](https://github.com/user-attachments/assets/ba56b4d1-2272-4d52-b366-ec12b5d96024) 
+
+To start printing from the CFS after the spool holder:
+1. Open the Fluidd web interface.
+2. Press the "T17" button or type "T17" into the console and press "Enter". The spool holder filament will be unloaded.
+3. Manually retract the filament from the extruder and tubes.
+4. If you do not have a Y-splitter, disconnect the spool holder tube and connect the CFS tube.
+
+> [!WARNING]
+> !!! DO NOT USE RETRACT BUTTON IN PRINTER SCREEN FOR UNLOADING FILAMENT!!! USE ONLY T17 FOR IT !!!
+
+
 #### !!!
 You need change some start g-codes in slicer:  
 Machine start g-code:  
@@ -37,10 +60,12 @@ START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_tempe
 T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
 ```
 Change filament g-code
+> [!NOTE]
+> If you are already using a previous version, please ensure that you update the "filament change g-code" to next one:
 ```
 G1 E-[old_retract_length] F2400
 G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
-G1 X0 Y200 F30000
+G1 X0 Y345 F30000 ;GO_TO_CUT_POS
 T[next_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
 ```
 In Multimaterial tab in Printer settings you need to switch on Manual Filament Change
@@ -51,7 +76,7 @@ In Filament start g-code you need remove or comment all strings!
 
 #### !!!
 
-### better_Z.cfg
+### better_Z.cfg (already included in overrides.cfg)
 - The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
 - prtouch tuned for accuracy
 - AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. \
