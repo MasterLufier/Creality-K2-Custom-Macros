@@ -66,7 +66,7 @@ Change filament g-code
 G1 E-[old_retract_length] F2400
 G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
 G1 X0 Y345 F30000 ;GO_TO_CUT_POS
-T[next_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
 ```
 In Multimaterial tab in Printer settings you need to switch on Manual Filament Change
 
