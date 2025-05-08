@@ -11,6 +11,10 @@ Author: Mikhail Ivanov masluf@gmail.com
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
 
+> [!NOTE]
+> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
+> Also, there is an explanation of each virtual pins in the comments in main.cfg.
+
 ## Key Features:
 ### main.cfg
 - Fix the exhaust fan to improve Orca's (and Creality Print) "Activate Air Filtration" function.
@@ -18,13 +22,12 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Bed mesh store for different bed temperatures
 - Better start printing with an additional fast start option for printing the same model (through the virtual pin). This would be useful for printing smaller parts or testing and soak time up to 10 minutes (through virtual pins as well) for better bed stabilization and the best first layer for large parts or printing many parts at once.
 - The toolhead moves quickly after RESUME printing to prevent oozing.
-- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. \
+- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. 
 
 ### overrides.cfg
 - Increased accuracy of Z_TILT_ADJUST
 - Default bed mesh calibration is turned off after printer restart
-- prtouch:
-  - Disabled console flood
+- Disabled prtouch console flood
 - Max bed temp increased to 140c
 - Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
 ### tool.cfg
@@ -69,8 +72,6 @@ START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_tempe
 T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
 ```
 Change filament g-code
-> [!NOTE]
-> If you are already using a previous version, please ensure that you update the "filament change g-code" to next one:
 ```
 G1 E-[old_retract_length] F2400
 G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
