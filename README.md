@@ -3,7 +3,10 @@ Creality K2 macros for better ORCA Slicer compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
 Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
 GPL-3.0 license\
-Author: Mikhail Ivanov masluf@gmail.com  
+Author: Mikhail Ivanov masluf@gmail.com 
+> [!NOTE]
+> Macros tested on 1.1.2.10 Printer firmware and 1.1.3 CFS Firmware.
+> I have information that Tool.cfg does not work with the 1.1.3.5 firmware and it may not work with 1.1.3.1 either.
 
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
@@ -15,6 +18,8 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Bed mesh store for different bed temperatures
 - Better start printing with an additional fast start option for printing the same model (through the virtual pin). This would be useful for printing smaller parts or testing and soak time up to 10 minutes (through virtual pins as well) for better bed stabilization and the best first layer for large parts or printing many parts at once.
 - The toolhead moves quickly after RESUME printing to prevent oozing.
+- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. \
+
 ### overrides.cfg
 - Increased accuracy of Z_TILT_ADJUST
 - Default bed mesh calibration is turned off after printer restart
@@ -82,8 +87,7 @@ In Filament start g-code you need remove or comment all strings!
 
 ### better_Z.cfg (already included in overrides.cfg)
 - The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
-- prtouch tuned for accuracy
-- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. \
+- prtouch tuned for accuracy \
 !!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
 
 ## Installation:
