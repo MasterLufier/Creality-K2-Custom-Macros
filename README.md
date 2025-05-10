@@ -18,7 +18,7 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Bed mesh store for different bed temperatures
 - Better start printing with an additional fast start option for printing the same model (through the virtual pin). This would be useful for printing smaller parts or testing and soak time up to 10 minutes (through virtual pins as well) for better bed stabilization and the best first layer for large parts or printing many parts at once.
 - The toolhead moves quickly after RESUME printing to prevent oozing.
-- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. 
+- `AUTO_MESH` is a macro that creates a mesh for each desired temperature set under `variable_bed_mesh_temps` in `main.cfg`. Just fill comma separated list, save, push the button and wait. 
 
 ### overrides.cfg
 - Increased accuracy of Z_TILT_ADJUST
