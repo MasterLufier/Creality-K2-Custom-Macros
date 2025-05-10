@@ -11,10 +11,6 @@ Author: Mikhail Ivanov masluf@gmail.com
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
 
-> [!NOTE]
-> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
-> Also, there is an explanation of each virtual pins in the comments in main.cfg.
-
 ## Key Features:
 ### main.cfg
 - Fix the exhaust fan to improve Orca's (and Creality Print) "Activate Air Filtration" function.
@@ -72,6 +68,10 @@ To start printing from the CFS after the spool holder:
 ## Installation:
 
 ### Install these scripts to your K2
+
+> [!NOTE]
+> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
+> Also, there is an explanation of each virtual pins in the comments in main.cfg.
 
  1. Install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins: Just copy `virtual_pins.py` to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account)
  1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
