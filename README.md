@@ -97,13 +97,26 @@ In Filament start g-code you need remove or comment all strings!
  1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
  1. Edit your `printer.cfg`:
      1. Add after the `[includes ...]` block at the top:
-        ```
-        [include custom/main.cfg]
-        [include custom/tool.cfg]
+        ```diff
+        ...
+         [include sensorless.cfg]
+         [include gcode_macro.cfg]
+         [include printer_params.cfg]
+         [include box.cfg]
+        +[include custom/main.cfg]
+        +[include custom/tool.cfg]
+
+        ...
         ```
      1. Add a the bottom, just before the `SAVE_CONFIG` commented section:
-        ```
-        [include custom/overrides.cfg]
+        ```diff
+        ...
+
+        +[include custom/overrides.cfg]
+
+         #*# <---------------------- SAVE_CONFIG ---------------------->
+         #*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
+         ...
         ```
 
 Example:
