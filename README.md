@@ -64,34 +64,14 @@ To start printing from the CFS after the spool holder:
 > [!WARNING]
 > !!! DO NOT USE RETRACT BUTTON IN PRINTER SCREEN FOR UNLOADING FILAMENT!!! USE ONLY T17 FOR IT !!!
 
-#### !!!
-You need change some start g-codes in slicer:  
-Machine start g-code:  
-```
-START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
-T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
-```
-Change filament g-code
-```
-G1 E-[old_retract_length] F2400
-G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
-G1 X0 Y345 F30000 ;GO_TO_CUT_POS
-T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
-```
-In Multimaterial tab in Printer settings you need to switch on Manual Filament Change
-
-![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
-
-In Filament start g-code you need remove or comment all strings!
-
-#### !!!
-
 ### better_Z.cfg (already included in overrides.cfg)
 - The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
 - prtouch tuned for accuracy \
 !!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
 
 ## Installation:
+
+### Install these scripts to your K2
 
  1. Install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins: Just copy `virtual_pins.py` to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account)
  1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
@@ -124,14 +104,55 @@ Example:
 ![изображение](https://github.com/user-attachments/assets/9f2b6c62-a756-42e8-a3e8-70fc86d4d4e8)
 ![изображение](https://github.com/user-attachments/assets/aa353b06-e271-4759-b018-69a6830509f7)
 
-Note: `tool.cfg` is optional.
-
-Note: You can use overrides.cfg partially or full. Annotation will be added soon.
+Note: `tool.cfg` is optional. Also `overrides.cfg` can be used as is or just partially. Annotation will be added soon.
 
 ![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
 
+### Update your slicer settings
+
+You need change some start g-codes in slicer:
+
+  - Machine start g-code:  
+    ```diff
+     M140 S0
+     M104 S0 
+    -START_PRINT EXTRUDER_TEMP=220 BED_TEMP=[bed_temperature_initial_layer_single]
+    -T[initial_no_support_extruder]
+    +START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
+    +T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type]
+     M109 S[nozzle_temperature_initial_layer]
+     M204 S2000
+     G1 Z3 F600
+     M83
+     G1 Y150 F12000
+     G1 X0 F12000
+     G1 Z0.2 F600
+     G1 X0 Y150 F6000
+     G1 X0 Y0 E15 F6000
+     G1 X150 Y0 E15 F6000
+     G92 E0
+     G1 Z1 F600
+    ```
+
+  - (Machine) Change filament g-code
+    ```diff
+    G1 E-[old_retract_length] F2400
+    G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
+    G1 X0 Y345 F30000 ;GO_TO_CUT_POS
+    T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+    ```
+
+  - In Multimaterial tab in Printer settings you need to switch on *Manual Filament Change*
+    ![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
+
+  - In Filament start g-code you need remove or comment:
+    ```diff
+    -M109 S[nozzle_temperature]
+    ```
+
 ## For developers:
-Extraction of box_wrapper.cpython-39.so attributes here:  
+Extraction of `box_wrapper.cpython-39.so` attributes here:  
 https://docs.google.com/spreadsheets/d/16-dBGIGJ-zMNRc8hM-vnQLuDPJgmWSqQlyrfId-jeRs/edit?usp=sharing  
-Extraction of filament_rack_wrapper.cpython-39.so attributes here:  
+
+Extraction of `filament_rack_wrapper.cpython-39.so` attributes here:  
 https://docs.google.com/spreadsheets/d/1BUP6k6tMjnTPiEdz6MP2wp-nE-Sxzs840_5d1FgZd7s/edit?usp=sharing  
