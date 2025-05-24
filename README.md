@@ -11,10 +11,6 @@ Author: Mikhail Ivanov masluf@gmail.com
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
 
-> [!NOTE]
-> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
-> Also, there is an explanation of each virtual pins in the comments in main.cfg.
-
 ## Key Features:
 ### main.cfg
 - Fix the exhaust fan to improve Orca's (and Creality Print) "Activate Air Filtration" function.
@@ -22,7 +18,7 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Bed mesh store for different bed temperatures
 - Better start printing with an additional fast start option for printing the same model (through the virtual pin). This would be useful for printing smaller parts or testing and soak time up to 10 minutes (through virtual pins as well) for better bed stabilization and the best first layer for large parts or printing many parts at once.
 - The toolhead moves quickly after RESUME printing to prevent oozing.
-- AUTO_MESH is a macro that creates a mesh for each desired temperature. Just fill comma separated list, save, push the button and wait. 
+- `AUTO_MESH` is a macro that creates a mesh for each desired temperature set under `variable_bed_mesh_temps` in `main.cfg`. Just fill comma separated list, save, push the button and wait. 
 
 ### overrides.cfg
 - Increased accuracy of Z_TILT_ADJUST
@@ -64,50 +60,83 @@ To start printing from the CFS after the spool holder:
 > [!WARNING]
 > !!! DO NOT USE RETRACT BUTTON IN PRINTER SCREEN FOR UNLOADING FILAMENT!!! USE ONLY T17 FOR IT !!!
 
-#### !!!
-You need change some start g-codes in slicer:  
-Machine start g-code:  
-```
-START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
-T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
-```
-Change filament g-code
-```
-G1 E-[old_retract_length] F2400
-G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
-G1 X0 Y345 F30000 ;GO_TO_CUT_POS
-T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
-```
-In Multimaterial tab in Printer settings you need to switch on Manual Filament Change
-
-![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
-
-In Filament start g-code you need remove or comment all strings!
-
-#### !!!
-
 ### better_Z.cfg (already included in overrides.cfg)
 - The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
 - prtouch tuned for accuracy \
 !!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
 
 ## Installation:
-For use you need install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins \
-Just copy virtual_pins.py to you printer /usr/share/klipper/klippy/extras/ via SSH\
-Than copy main.cfg to you pinter config directory Fluidd web interface and include to printer.cfg after all includes.\
-you can use tool.cfg or not. If you want, just copy tool.cfg and custom_vars.cfg to printer config directory via Fluidd web interface and include to printer.cfg after main.cfg\
-\
+
+### Install these scripts to your K2
+
+> [!NOTE]
+> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
+> Also, there is an explanation of each virtual pins in the comments in main.cfg.
+
+ 1. Install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins: Just copy `virtual_pins.py` to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account)
+ 1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
+ 1. Edit your `printer.cfg`:
+     1. Add after the `[includes ...]` block at the top:
+        ```diff
+        ...
+         [include sensorless.cfg]
+         [include gcode_macro.cfg]
+         [include printer_params.cfg]
+         [include box.cfg]
+        +[include custom/main.cfg]
+        +[include custom/tool.cfg]
+
+        ...
+        ```
+     1. Add a the bottom, just before the `SAVE_CONFIG` commented section:
+        ```diff
+        ...
+
+        +[include custom/overrides.cfg]
+
+         #*# <---------------------- SAVE_CONFIG ---------------------->
+         #*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
+         ...
+        ```
+
 Example:
 ![изображение](https://github.com/user-attachments/assets/d2adb77c-587f-4844-a844-545f4fd42174)
 ![изображение](https://github.com/user-attachments/assets/9f2b6c62-a756-42e8-a3e8-70fc86d4d4e8)
 ![изображение](https://github.com/user-attachments/assets/aa353b06-e271-4759-b018-69a6830509f7)
 
-overrides.cfg need to be included in printer.cfg  after all blocs before SAVE_CONFIG section \
-you can use overrides.cfg partialy or full. Annotation will be added soon.
+Note: `tool.cfg` is optional. Also `overrides.cfg` can be used as is or just partially. Annotation will be added soon.
 
 ![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
+
+### Update your slicer settings
+
+You need change some start g-codes in slicer:
+
+  - Machine start g-code ([recommended](https://github.com/MasterLufier/Creality-K2-Custom-Macros/pull/7)):
+    ```
+    START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
+    T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type]
+    ```
+
+  - (Machine) Change filament g-code
+    ```diff
+    G1 E-[old_retract_length] F2400
+    G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
+    G1 X0 Y345 F30000 ;GO_TO_CUT_POS
+    T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+    ```
+
+  - In Multimaterial tab in Printer settings you need to switch on *Manual Filament Change*
+    ![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
+
+  - In Filament start g-code you need remove or comment:
+    ```diff
+    -M109 S[nozzle_temperature]
+    ```
+
 ## For developers:
-Extraction of box_wrapper.cpython-39.so attributes here:  
+Extraction of `box_wrapper.cpython-39.so` attributes here:  
 https://docs.google.com/spreadsheets/d/16-dBGIGJ-zMNRc8hM-vnQLuDPJgmWSqQlyrfId-jeRs/edit?usp=sharing  
-Extraction of filament_rack_wrapper.cpython-39.so attributes here:  
+
+Extraction of `filament_rack_wrapper.cpython-39.so` attributes here:  
 https://docs.google.com/spreadsheets/d/1BUP6k6tMjnTPiEdz6MP2wp-nE-Sxzs840_5d1FgZd7s/edit?usp=sharing  
