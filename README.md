@@ -112,26 +112,10 @@ Note: `tool.cfg` is optional. Also `overrides.cfg` can be used as is or just par
 
 You need change some start g-codes in slicer:
 
-  - Machine start g-code:  
-    ```diff
-     M140 S0
-     M104 S0 
-    -START_PRINT EXTRUDER_TEMP=220 BED_TEMP=[bed_temperature_initial_layer_single]
-    -T[initial_no_support_extruder]
-    +START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
-    +T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type]
-     M109 S[nozzle_temperature_initial_layer]
-     M204 S2000
-     G1 Z3 F600
-     M83
-     G1 Y150 F12000
-     G1 X0 F12000
-     G1 Z0.2 F600
-     G1 X0 Y150 F6000
-     G1 X0 Y0 E15 F6000
-     G1 X150 Y0 E15 F6000
-     G92 E0
-     G1 Z1 F600
+  - Machine start g-code ([recommended](https://github.com/MasterLufier/Creality-K2-Custom-Macros/pull/7)):
+    ```
+    START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
+    T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type]
     ```
 
   - (Machine) Change filament g-code
