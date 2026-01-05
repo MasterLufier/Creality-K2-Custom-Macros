@@ -1,4 +1,8 @@
 # Creality-K2-Custom-Macros
+
+This is a fork of original repo https://github.com/MasterLufier/Creality-K2-Custom-Macros
+## Removed support of klipper virtual pins.  The functionality of Klipper virtual pins has been replaced with G-code variables.
+
 Creality K2 macros for better ORCA Slicer compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
 Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
