@@ -5,8 +5,8 @@ Special thanks: https://github.com/Tartarianec for Creality libs functions extra
 GPL-3.0 license\
 Author: Mikhail Ivanov masluf@gmail.com 
 > [!NOTE]
-> Macros tested on 1.1.2.10 Printer firmware and 1.1.3 CFS Firmware.
-> I have information that Tool.cfg does not work with the 1.1.3.5 firmware and it may not work with 1.1.3.1 either.
+> Macros tested on 1.1.3.13 Printer firmware and 1.1.3 CFS Firmware.
+> Tool.cfg does not work with the 1.1.4.8 firmware. But this firmware has a lot of bugs, and I do not recommend installing it.
 
 > [!WARNING]
 > Using custom macros could damage your printer and void your warranty, or cause unexpected behavior.
@@ -26,6 +26,9 @@ Author: Mikhail Ivanov masluf@gmail.com
 - Disabled prtouch console flood
 - Max bed temp increased to 140c
 - Heater fan speed increased to full. It's ok for heating but you can get best result with my Ultimate Exhaust system https://www.crealitycloud.com/model-detail/67c9f8b07f0b8c17944c377b?source=22
+- prtouch tuned for accuracy \
+!!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
+
 ### tool.cfg
 > [!NOTE]
 > I am not sure about all the commands in this module, as they are the result of reverse engineering and require a lot of testing.
@@ -60,11 +63,6 @@ To start printing from the CFS after the spool holder:
 > [!WARNING]
 > !!! DO NOT USE RETRACT BUTTON IN PRINTER SCREEN FOR UNLOADING FILAMENT!!! USE ONLY T17 FOR IT !!!
 
-### better_Z.cfg (already included in overrides.cfg)
-- The Z-axis homing position has been moved to the left back corner of the bed, as this is a more temperature-stable point than the center of the bed.
-- prtouch tuned for accuracy \
-!!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
-
 ## Installation:
 
 ### Install these scripts to your K2
@@ -73,7 +71,7 @@ To start printing from the CFS after the spool holder:
 > Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
 > Also, there is an explanation of each virtual pins in the comments in main.cfg.
 
- 1. Install Klipper Virtual Pins https://github.com/pedrolamas/klipper-virtual-pins: Just copy `virtual_pins.py` to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account)
+ 1. Copy files from `/extras/` dir to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account Information)
  1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
  1. Edit your `printer.cfg`:
      1. Add after the `[includes ...]` block at the top:
@@ -104,7 +102,7 @@ Example:
 ![изображение](https://github.com/user-attachments/assets/9f2b6c62-a756-42e8-a3e8-70fc86d4d4e8)
 ![изображение](https://github.com/user-attachments/assets/aa353b06-e271-4759-b018-69a6830509f7)
 
-Note: `tool.cfg` is optional. Also `overrides.cfg` can be used as is or just partially. Annotation will be added soon.
+Note: `tool.cfg` is optional.
 
 ![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
 
