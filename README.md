@@ -1,10 +1,11 @@
 # Creality-K2-Custom-Macros
-Creality K2 macros for better ORCA Slicer compatibility and other improvements\
+Creality K2 Plus macros for better ORCA Slicer compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
 Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
 GPL-3.0 license\
 Author: Mikhail Ivanov masluf@gmail.com 
 > [!NOTE]
+> Only for Creality K2 Plus. For K2 and K2 PRO, you need to make some changes and tests.
 > Macros tested on 1.1.3.13 Printer firmware and 1.1.3 CFS Firmware.
 > Tool.cfg does not work with the 1.1.4.8 firmware. But this firmware has a lot of bugs, and I do not recommend installing it.
 
