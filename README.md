@@ -30,6 +30,10 @@ Author: Mikhail Ivanov masluf@gmail.com
 - prtouch tuned for accuracy \
 !!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
 
+### graphite.cfg
+- special overrides for R3MEN graphite bed \
+  include after overrides.cfg
+  
 ### tool.cfg
 > [!NOTE]
 > I am not sure about all the commands in this module, as they are the result of reverse engineering and require a lot of testing.
