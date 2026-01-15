@@ -61,7 +61,10 @@ Author: Mikhail Ivanov masluf@gmail.com
   - Refill on infills, not on perimeters (except vase mod). You can setup whitch line roles will need to excludes in cfg.
   - Keep refills with no gaps.
 > [!NOTE]
-> If autorefill fails (simply pause when filament runs out), reduce the pipe length variable.  
+> If autorefill fails (simply pause when filament runs out), reduce the pipe length variable.
+
+> [!WARNING]
+> Autorefill only works on the first CFS. If there are more than one connected CFSs, it will only work on the first one. It will be fixed in the future.
 
 To start printing from the spool holder after using the CFS, follow these steps:
 1. Open the Fluidd web interface.
