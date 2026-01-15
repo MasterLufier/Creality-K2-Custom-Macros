@@ -1,4 +1,4 @@
-# Creality-K2-Custom-Macros
+# Creality-K2-Plus-Custom-Macros
 Creality K2 Plus macros for better ORCA Slicer compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
 Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
