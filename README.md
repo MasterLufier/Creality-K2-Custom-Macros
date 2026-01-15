@@ -30,9 +30,9 @@ Author: Mikhail Ivanov masluf@gmail.com
 - prtouch tuned for accuracy \
 !!!REMOVE ALL BED MESHES AFTER INSTALL THIS COMPONENT, OR USE AUTO_MESH WITH ALL BED TEMPERATURES BEFORE FIRST PRINT!!!
 
-### graphite.cfg
+### graphite_pre.cfg and garaphite.cfg
 - special overrides for R3MEN graphite bed \
-  include after overrides.cfg
+  include graphite_pre.cfg after mai.cfg and garaphite.cfg after overrides.cfg
   
 ### tool.cfg
 > [!NOTE]
@@ -88,6 +88,8 @@ To start printing from the CFS after the spool holder:
          [include box.cfg]
         +[include custom/main.cfg]
         +[include custom/tool.cfg]
+        +#if you ubgrade you bed to R3MEN Graphite bed
+        +[include custom/graphite_pre.cfg]
 
         ...
         ```
@@ -96,20 +98,15 @@ To start printing from the CFS after the spool holder:
         ...
 
         +[include custom/overrides.cfg]
+        +#if you ubgrade you bed to R3MEN Graphite bed
+        +[include custom/graphite.cfg]
 
          #*# <---------------------- SAVE_CONFIG ---------------------->
          #*# DO NOT EDIT THIS BLOCK OR BELOW. The contents are auto-generated.
          ...
         ```
 
-Example:
-![изображение](https://github.com/user-attachments/assets/d2adb77c-587f-4844-a844-545f4fd42174)
-![изображение](https://github.com/user-attachments/assets/9f2b6c62-a756-42e8-a3e8-70fc86d4d4e8)
-![изображение](https://github.com/user-attachments/assets/aa353b06-e271-4759-b018-69a6830509f7)
-
 Note: `tool.cfg` is optional.
-
-![изображение](https://github.com/user-attachments/assets/331bd7bf-287d-4d6c-9f20-7ea7645a218d)
 
 ### Update your slicer settings
 
