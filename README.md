@@ -1,4 +1,4 @@
-# Creality-K2-Custom-Macros
+# Creality-K2-Plus-Custom-Macros
 Creality K2 Plus macros for better ORCA Slicer compatibility and other improvements\
 Based on ideas: https://github.com/jamincollins great thanks!\
 Special thanks: https://github.com/Tartarianec for Creality libs functions extraction \
@@ -36,7 +36,7 @@ Author: Mikhail Ivanov masluf@gmail.com
   
 ### tool.cfg
 > [!NOTE]
-> I am not sure about all the commands in this module, as they are the result of reverse engineering and require a lot of testing.
+> I am not sure about all the commands in this module, as they are the result of reverse engineering and require a lot of testing. But I have been using these features for a year and they work well most of the time.
 
 - added Toolhead buttons for manual load and unload filaments. T17 for unload any. Do NOT press any buttons except T17 to unload filaments. \
 ![изображение](https://github.com/user-attachments/assets/afea66c2-4f16-4baf-859d-b6a7c3ac8330)
@@ -46,6 +46,25 @@ Author: Mikhail Ivanov masluf@gmail.com
 - All loading and purging parameters, such as temperature and velocity, are used from the slicer, and not from the printer's filament database or printer's on-screen menu.
 - Added pressure stabilization to the last purging step. This allows you to print without a skirt, a brim, a priming tower, or any other garbage objects. However, in some cases, such as when changing filament types or opposite colours changes, you may want to add a priming tower for better print quality.
 - Loading and unloading CFS filament as quickly as possible.
+- Added custom logic for material autorefilling. All information such as filament type and color is taken from macro parameters, not from printer settings.\
+  How autorefill works:
+0. In the tool.cfg file CHECK_REFILL gcode_macro:
+- Set up the pipe length using the `variable_cfs_pipe_length`. It is the full length from the CFS input pipe to the toolhead input pipe! (including pipes inside the CFS).
+- Set up EXCLUDES line role `variable_refill_roles`. By default ["Perimeter", "ExternalPerimeter", "OverhangPerimeter"] to minimize artefacts around the perimeters. For all role types, see the slicer's gcode templates reference.
+1. Load two (or more) of the same material with the same color into the CFS.
+2. In the slicer, choose the same materials and colors for these slots.
+  <img width="659" height="410" alt="image" src="https://github.com/user-attachments/assets/7a129a63-0483-4023-952c-5842f753539c" /> \
+3. When the first filament runs out of the CFS slot, you will see a red indicator. That's OK.
+4. Then the filament runs out and you hear the CFS motor running for about 3 seconds. That's OK.
+5. Scripts try to resove different tasks:
+  - Minimize waste and keep printing (depends on pipe length variable) when filament in pipes. You can increase or decrease the waste by slightly decreasing or increasing the pipe length variable in the cfg. (The inverse relationship)
+  - Refill on infills, not on perimeters (except vase mod). You can setup whitch line roles will need to excludes in cfg.
+  - Keep refills with no gaps.
+> [!NOTE]
+> If autorefill fails (simply pause when filament runs out), reduce the pipe length variable.
+
+> [!WARNING]
+> Autorefill only works on the first CFS. If there are more than one connected CFSs, it will only work on the first one. It will be fixed in the future.
 
 To start printing from the spool holder after using the CFS, follow these steps:
 1. Open the Fluidd web interface.
@@ -73,12 +92,13 @@ To start printing from the CFS after the spool holder:
 ### Install these scripts to your K2
 
 > [!NOTE]
-> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware. 
+> Before using main.cfg, please open it, read the comments on the user-defined section, set the desired values, save, and restart firmware.
+> Before using tool.cfg, please open it, read the comments on the `[gcode_macro CHECK_REFILL]`, set the desired values, save, and restart firmware. 
 > Also, there is an explanation of each virtual pins in the comments in main.cfg.
 
  1. Copy files from `/extras/` dir to you printer `/usr/share/klipper/klippy/extras/` via SSH (find the SSH password from touch UI > Cogwheel > General > Root account Information)
- 1. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
- 1. Edit your `printer.cfg`:
+ 2. Upload the `custom` directory of this repo to your printer using the Fluidd web interface.
+ 3. Edit your `printer.cfg`:
      1. Add after the `[includes ...]` block at the top:
         ```diff
         ...
@@ -87,8 +107,7 @@ To start printing from the CFS after the spool holder:
          [include printer_params.cfg]
          [include box.cfg]
         +[include custom/main.cfg]
-        +[include custom/tool.cfg]
-        +#if you ubgrade you bed to R3MEN Graphite bed
+        +#if you upgrade you bed to R3MEN Graphite bed
         +[include custom/graphite_pre.cfg]
 
         ...
@@ -96,9 +115,10 @@ To start printing from the CFS after the spool holder:
      1. Add a the bottom, just before the `SAVE_CONFIG` commented section:
         ```diff
         ...
-
+        
+        +[include custom/tool.cfg] # optional
         +[include custom/overrides.cfg]
-        +#if you ubgrade you bed to R3MEN Graphite bed
+        +#if you upgrade you bed to R3MEN Graphite bed
         +[include custom/graphite.cfg]
 
          #*# <---------------------- SAVE_CONFIG ---------------------->
@@ -110,29 +130,39 @@ Note: `tool.cfg` is optional.
 
 ### Update your slicer settings
 
-You need change some start g-codes in slicer:
+You need change some start g-codes in slicer. \
+If you DO NOT use Tool.cfg:
 
-  - Machine start g-code ([recommended](https://github.com/MasterLufier/Creality-K2-Custom-Macros/pull/7)):
+  - Machine start g-code:
     ```
     START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
-    T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type]
     ```
 
-  - (Machine) Change filament g-code
+If you use Tool.cfg:
+  - Machine start g-code:
+    ```
+    START_PRINT EXTRUDER_TEMP=[nozzle_temperature_initial_layer] BED_TEMP=[bed_temperature_initial_layer_single] CHAMBER_TEMP=[overall_chamber_temperature]
+    T[initial_no_support_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type] TYPES=[filament_type_0]|[filament_type_1]|[filament_type_2]|[filament_type_3] [filament_colour_0]|[filament_colour_1]|[filament_colour_2]|[filament_colour_3]
+    ```
+
+  - (Machine) Change filament g-code:
     ```diff
     G1 E-[old_retract_length] F2400
     G2 Z{z_after_toolchange + 0.4} I0.86 J0.86 P1 F10000 ; spiral lift a little from second lift
-    G1 X0 Y345 F30000 ;GO_TO_CUT_POS
-    T[next_extruder] TEMP=[new_filament_temp] MAX_FLOWRATE=[filament_max_volumetric_speed]  FILAMENT_TYPE=[filament_type]
+    G1 X10 Y350 F30000
+    T[next_extruder] TEMP=[first_layer_temperature] MAX_FLOWRATE=[filament_max_volumetric_speed] FILAMENT_TYPE=[filament_type] TYPES=[filament_type_0]|[filament_type_1]|[filament_type_2]|[filament_type_3] [filament_colour_0]|[filament_colour_1]|[filament_colour_2]|[filament_colour_3]
     ```
-
+  - (Machine) Change extrusion role g-code:
+    ```
+    CHECK_REFILL ROLE=[extrusion_role]
+    ```
+    
   - In Multimaterial tab in Printer settings you need to switch on *Manual Filament Change*
     ![изображение](https://github.com/user-attachments/assets/c69695b4-2daa-42a4-8690-5e2150cb7631)   
 
-  - In Filament start g-code you need remove or comment:
-    ```diff
-    -M109 S[nozzle_temperature]
-    ```
+  - In Filament start and end g-codes remove all.
+> [!WARNING]
+> Keep all original G-code formatting, such as whitespace and line breaks!
 
 ## For developers:
 Extraction of `box_wrapper.cpython-39.so` attributes here:  
